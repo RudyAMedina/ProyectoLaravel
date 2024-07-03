@@ -54,7 +54,6 @@
                             </nav>
                         @endif
                     </header>
-
                     <main class="mt-6 container mx-auto px-4">
                         <form action="{{ route('peliculas.lista') }}" method="GET" class="mb-8">
                             <div class="flex justify-center">
@@ -62,51 +61,6 @@
                                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-r-lg">Buscar</button>
                             </div>
                         </form>
-                        
-                            @if(request()->filled('search'))
-                            <div class="mb-8">
-                                <h2 class="text-2xl font-bold mb-4">Resultados de la búsqueda</h2>
-                                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                                    @foreach ($peliculas as $pelicula)
-                                        <div class="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                                            <a href="{{ route('peliculas.show', $pelicula->id) }}" class="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                                                @if($pelicula->image)
-                                                    <img src="{{ asset('images/' . $pelicula->image) }}" alt="{{ $pelicula->title }}" class="w-full h-64 object-cover">
-                                                @endif
-                                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-                                                    <h2 class="text-lg font-semibold text-white">{{ $pelicula->title }}</h2>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @else
-                            @foreach ($categories as $category)
-                                @if ($category->peliculas->count() > 0) <!-- Mostrar solo categorías con películas relacionadas -->
-                                    <div class="mb-8">
-                                        <h2 class="text-2xl font-bold mb-4">{{ $category->titulo }}</h2>
-                                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                                            @foreach ($category->peliculas as $pelicula)
-                                                @if ($loop->index < 5) <!-- Mostrar solo las primeras 5 películas -->
-                                                    <div class="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                                                        <a href="{{ route('peliculas.show', $pelicula->id) }}" class="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                                                            @if($pelicula->image)
-                                                                <img src="{{ asset('images/' . $pelicula->image) }}" alt="{{ $pelicula->title }}" class="w-full h-64 object-cover">
-                                                            @endif
-                                                            
-                                                            <h2 class="text-lg font-semibold text-white">{{ $pelicula->title }}</h2>
-                                                            
-                                                        </a>
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
-                        @endif
-                     
                     </main>
 
                     

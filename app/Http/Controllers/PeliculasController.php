@@ -1,0 +1,131 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Peliculas;
+use App\Models\Categorias;
+use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+
+class PeliculasController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $peliculas = Peliculas::paginate(2);
+        return view('dashboard', ['data' => $peliculas, 'type' => 'Peliculas']);
+    }
+
+    public function lista(Request $request)
+    {
+
+        $query = Peliculas::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('title', 'LIKE', "%{$search}%")
+                ->orWhereHas('category', function($q) use ($search) {
+                    $q->where('titulo', 'LIKE', "%{$search}%");
+                });
+        }
+
+        $peliculas = $query->get();
+
+        if ($request->filled('search')) {
+            $categories = Categorias::whereHas('peliculas', function($q) use ($search) {
+                $q->where('title', 'LIKE', "%{$search}%")
+                  ->orWhereHas('category', function($q) use ($search) {
+                      $q->where('titulo', 'LIKE', "%{$search}%");
+                  });
+            })->with(['peliculas' => function($q) use ($search) {
+                $q->where('title', 'LIKE', "%{$search}%")
+                  ->orWhereHas('category', function($q) use ($search) {
+                      $q->where('titulo', 'LIKE', "%{$search}%");
+                  });
+            }])->get();
+        } else {
+            $categories = Categorias::with('peliculas')->get();
+        }
+    
+        return view('welcome', compact('peliculas', 'categories'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $categories = Categorias::pluck('id', 'titulo');
+        //dd($categories);
+        return view('post.create', compact('categories'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+       //dd($request);
+       $request->validate([
+        'title' => 'required|string|max:255',
+        'slug' => 'required|string|max:255',
+        'content' => 'required|string',
+        'category_id' => 'required|integer',
+        'description' => 'nullable|string',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'posted' => 'required|string|in:not,yes',
+        ]);
+    
+        $image = $request->file('image');
+        $imageName = time() . '.' . $image->extension();
+        $image->move(public_path('images'), $imageName);
+
+        $data = $request->all();
+        $data['image'] = $imageName;
+
+        Peliculas::create($data);
+
+        // Redireccionar a la lista de posts pagina 41 del pdf
+        return redirect()->route('posts.index')
+                        ->with('success', 'Agregado correctamente.');
+
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Peliculas $peliculas): View
+    {
+        return view('peliculas.show', compact('peliculas'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Peliculas $peliculas)
+    {
+        $categories = Categorias::pluck('titulo', 'id');
+        return view('post.edit', compact('$peliculas', 'categories'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Peliculas $peliculas)
+    {
+        $peliculas->delete();
+        return redirect()->route('posts.index')->with('success', 'Registro eliminado.');
+    }
+}
