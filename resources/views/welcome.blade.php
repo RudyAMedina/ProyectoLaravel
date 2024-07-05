@@ -82,31 +82,36 @@
                                 </div>
                             </div>
                         @else
+                        <div class="mb-8">
                             @foreach ($categories as $category)
-                                @if ($category->peliculas->count() > 0) <!-- Mostrar solo categorías con películas relacionadas -->
+                                @if ($category->peliculas->count() > 0)
                                     <div class="mb-8">
                                         <h2 class="text-2xl font-bold mb-4">{{ $category->titulo }}</h2>
-                                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                                            @foreach ($category->peliculas as $pelicula)
-                                                @if ($loop->index < 5) <!-- Mostrar solo las primeras 5 películas -->
-                                                    <div class="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                                                        <a href="{{ route('peliculas.show', $pelicula->id) }}" class="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                                                            @if($pelicula->image)
-                                                                <img src="{{ asset('images/' . $pelicula->image) }}" alt="{{ $pelicula->title }}" class="w-full h-64 object-cover">
-                                                            @endif
-                                                            
-                                                            <h2 class="text-lg font-semibold text-white">{{ $pelicula->title }}</h2>
-                                                            
-                                                        </a>
-                                                    </div>
-                                                @endif
-                                            @endforeach
+                                        <div class="relative px-5">
+                                            <!-- Botón anterior -->
+                                            <button class="absolute left-0 top-1/2 transform -translate-y-3/4 bg-gray-800 text-white p-2 rounded-full carousel-prev hidden">‹</button>
+                                            <div class="flex overflow-x-auto gap-6 pb-4 scrollbar-hide carousel-container">
+                                                @foreach ($category->peliculas as $pelicula)
+                                                    @if ($loop->index < 5)
+                                                        <div class="flex-none w-64">
+                                                            <a href="{{ route('peliculas.show', $pelicula->id) }}" class="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+                                                                @if($pelicula->image)
+                                                                    <img src="{{ asset('images/' . $pelicula->image) }}" alt="{{ $pelicula->title }}" class="w-full h-64 object-cover">
+                                                                @endif
+                                                                <h2 class="text-lg font-semibold text-white p-2">{{ $pelicula->title }}</h2>
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                            <!-- Botón siguiente -->
+                                            <button class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full carousel-next hidden">›</button>
                                         </div>
                                     </div>
                                 @endif
                             @endforeach
-                        @endif
-                     
+                        </div>
+                        @endif 
                     </main>
 
                     
@@ -115,4 +120,40 @@
                     Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
                 </footer>
     </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const prevButtons = document.querySelectorAll('.carousel-prev');
+        const nextButtons = document.querySelectorAll('.carousel-next');
+
+        prevButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const container = button.nextElementSibling;
+            container.scrollBy({
+                left: -container.offsetWidth,
+                behavior: 'smooth'
+            });
+        });
+        });
+
+        nextButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const container = button.previousElementSibling;
+            container.scrollBy({
+                left: container.offsetWidth,
+                behavior: 'smooth'
+            });
+        });
+        });
+       
+
+        // Mostrar botones de navegación si es necesario
+        const containers = document.querySelectorAll('.carousel-container');
+        containers.forEach(container => {
+            if (container.scrollWidth > container.clientWidth) {
+                container.parentElement.querySelector('.carousel-prev').classList.remove('hidden');
+                container.parentElement.querySelector('.carousel-next').classList.remove('hidden');
+            }
+        });
+    });
+    </script>
 </html>

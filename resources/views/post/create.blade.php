@@ -39,7 +39,7 @@
 
                         <div class="mb-4">
                             <label for="category_id" class="block text-sm font-medium text-white-700 mb-2">Selecciona una categoría:</label>
-                            <select name="category_id" id="category_id">
+                            <select name="category_id" id="category_id" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black">>
                                 @foreach($categories as $id => $titulo)
                                     <option value="{{ $titulo }}">{{ $id }}</option>
                                 @endforeach
@@ -58,7 +58,7 @@
 
                         <div class="mb-4">
                             <label for="posted" class="block text-sm font-medium text-white-700 mb-2">Postear</label>
-                            <select name="posted" id="posted">
+                            <select name="posted" id="posted" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black">>
                                 <option value="not">Not</option>
                                 <option value="yes">Yes</option>
                             </select>
