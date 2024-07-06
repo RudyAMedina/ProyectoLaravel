@@ -16,7 +16,7 @@ class PeliculasController extends Controller
      */
     public function index()
     {
-        $peliculas = Peliculas::paginate(2);
+        $peliculas = Peliculas::paginate(10);
         return view('dashboard', ['data' => $peliculas, 'type' => 'Peliculas']);
     }
 
@@ -108,18 +108,46 @@ class PeliculasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Peliculas $peliculas)
+    public function edit(Peliculas $post)
     {
         $categories = Categorias::pluck('titulo', 'id');
-        return view('post.edit', compact('$peliculas', 'categories'));
+        return view('post.edit', compact('post', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Peliculas $post)
     {
-        //
+        //dd($request);
+       $request->validate([
+        'title' => 'required|string|max:255',
+        'slug' => 'required|string|max:255',
+        'content' => 'required|string',
+        'category_id' => 'required|integer',
+        'description' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'posted' => 'required|string|in:not,yes',
+        ]);
+
+        if ($request->hasFile('image')) {
+            // eliminamos la imagen anterior si es que se carga una nueva imagen
+            if ($post->image) {
+                Peliculas::delete('images/' . $post->image);
+            }
+    
+            // guardamos la imagen nueva
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $post->image = $imageName;
+        }
+    
+        // Actualizamos otros campos del post
+        $post->fill($request->except('image'));
+        $post->save();
+    
+        return redirect()->route('posts.index', $post->id)->with('success', 'Pelicula actualizada');
+    
     }
 
     /**
