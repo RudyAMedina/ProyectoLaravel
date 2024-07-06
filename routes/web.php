@@ -34,4 +34,9 @@ Route::get('/Categorias', function () {
     return view('Categorias');
 })->middleware(['auth', 'verified'])->name('Categorias');
 
+
+
+
+Route::get('/email/verify', [App\Http\Controllers\Auth\EmailVerificationPromptController::class, '__invoke'])->middleware(['auth', 'throttle:6,1'])->name('verification.notice');
+
 require __DIR__.'/auth.php';

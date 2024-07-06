@@ -98,10 +98,12 @@ class PeliculasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Peliculas $peliculas): View
-    {
-        return view('peliculas.show', compact('peliculas'));
-    }
+    public function show($id)
+{
+    $pelicula = Peliculas::findOrFail($id);
+    return view('peliculas.show', compact('pelicula'));
+}
+
 
     /**
      * Show the form for editing the specified resource.
