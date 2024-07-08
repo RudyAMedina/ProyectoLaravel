@@ -73,9 +73,9 @@
                                                 @if($pelicula->image)
                                                     <img src="{{ asset('images/' . $pelicula->image) }}" alt="{{ $pelicula->title }}" class="w-full h-64 object-cover">
                                                 @endif
-                                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                                               
                                                     <h2 class="text-lg font-semibold text-white">{{ $pelicula->title }}</h2>
-                                                </div>
+                                                
                                             </a>
                                         </div>
                                     @endforeach

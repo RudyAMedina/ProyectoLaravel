@@ -9,20 +9,20 @@
                         <img src="{{ asset('images/logo.png') }}" alt="Logo" class="mx-auto h-16">
                     </a>
                 </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link id="nav-panel" href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Peliculas') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link id="nav-categorias" href="{{ route('categories.index') }}" :active="request()->routeIs('categories.*')">
-                        {{ __('Categorías') }}
-                    </x-nav-link>
-                </div>
-            </div>
-
+                @if(Auth::check() && Auth::user()->hasRole('administrador'))
+                            <!-- Navigation Links -->
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link id="nav-panel" href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                                {{ __('Peliculas') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link id="nav-categorias" href="{{ route('categories.index') }}" :active="request()->routeIs('categories.*')">
+                                {{ __('Categorías') }}
+                            </x-nav-link>
+                        </div>
+                    </div>
+                 @endif
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">

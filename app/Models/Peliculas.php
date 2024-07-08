@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 class Peliculas extends Model
 {
     use HasFactory;
+    use HasRoles;
     protected $table = 'peliculas';
 
     protected $fillable = ['title', 'slug', 'content', 'category_id', 'description',
