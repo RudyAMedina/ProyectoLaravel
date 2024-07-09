@@ -4,7 +4,8 @@ use App\Http\Controllers\PeliculasController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\CommentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,5 +43,16 @@ Route::get('/peliculas/{id}', [PeliculasController::class, 'show'])->name('pelic
 Route::get('/Categorias', function () {
     return view('Categorias');
 })->middleware(['auth', 'verified'])->name('Categorias');
+
+
+//Ruta para manejar las calificaciones de las peliculas
+Route::middleware('auth')->group(function () {
+    Route::post('/rate', [RatingController::class, 'store'])->name('rate');
+    });
+
+//ruta para manejar los comentarios de las peliculas
+Route::middleware('auth')->group(function () {
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+});
 
 require __DIR__.'/auth.php';
