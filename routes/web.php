@@ -14,7 +14,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
-        if (auth()->user()->hasRole('admin')) {
+        if (auth()->user()->hasRole('administrador')) {
             return app(PeliculasController::class)->index();
         } else {
             return view('userdashboard');

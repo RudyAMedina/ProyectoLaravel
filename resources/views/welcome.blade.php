@@ -89,14 +89,14 @@
                                         <h2 class="text-2xl font-bold mb-4">{{ $category->titulo }}</h2>
                                         <div class="relative px-5">
                                             <!-- Botón anterior -->
-                                            <button class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full carousel-prev hidden">‹</button>
+                                            <button class="absolute left-0 top-1/2 transform -translate-y-3/4 bg-gray-800 text-white p-2 rounded-full carousel-prev hidden">‹</button>
                                             <div class="flex overflow-x-auto gap-6 pb-4 scrollbar-hide carousel-container">
                                                 @foreach ($category->peliculas as $pelicula)
                                                     @if ($loop->index < 5)
-                                                        <div class="relative group duration-500 cursor-pointer overflow-hidden text-gray-50 h-72 w-56 rounded-2xl hover:duration-700">
-                                                            <a href="{{ route('peliculas.show', $pelicula->id) }}" class="relative bg-lime-400 text-gray-800 w-full h-full flex flex-col justify-end p-3">
+                                                        <div class="flex-none w-64">
+                                                            <a href="{{ route('peliculas.show', $pelicula->id) }}" class="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg">
                                                                 @if($pelicula->image)
-                                                                    <img src="{{ asset('images/' . $pelicula->image) }}" alt="{{ $pelicula->title }}" class="absolute inset-0 w-full h-full object-cover rounded-2xl opacity-50 group-hover:opacity-75 transition-opacity duration-500">
+                                                                    <img src="{{ asset('images/' . $pelicula->image) }}" alt="{{ $pelicula->title }}" class="w-full h-64 object-cover">
                                                                 @endif
                                                                 <div class="flex flex-row justify-between absolute inset-x-0 top-3 px-2">
                                                                     <svg class="fill-current stroke-current w-8 h-8 p-2 hover:bg-lime-200 rounded-full" height="100" viewBox="0 0 100 100" width="100" xmlns="http://www.w3.org/2000/svg">
@@ -106,7 +106,11 @@
                                                                         <path d="M50,17.4h0M50,50h0m0,32.6h0M50,22a4.7,4.7,0,1,1,4.7-4.6A4.7,4.7,0,0,1,50,22Zm0,32.7A4.7,4.7,0,1,1,54.7,50,4.7,4.7,0,0,1,50,54.7Zm0,32.6a4.7,4.7,0,1,1,4.7-4.7A4.7,4.7,0,0,1,50,87.3Z" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
                                                                     </svg>
                                                                 </div>
-                                                                
+                                                                <div class="absolute bottom-0 bg-gray-50 w-full p-3 flex flex-col gap-1 rounded-b-2xl">
+                                                                    <span class="text-lime-400 font-bold text-xs">TAILWIND</span>
+                                                                    <span class="text-gray-800 font-bold text-3xl">{{ $pelicula->title }}</span>
+                                                                    <p class="text-neutral-800">{{ $pelicula->description }}</p>
+                                                                </div>
                                                             </a>
                                                         </div>
                                                     @endif
@@ -119,7 +123,6 @@
                                 @endif
                             @endforeach
                         </div>
-                        
                         @endif 
                     </main>
 
