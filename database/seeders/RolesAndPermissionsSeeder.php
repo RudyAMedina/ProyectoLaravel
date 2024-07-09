@@ -3,40 +3,39 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Models\User;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
     public function run()
     {
-        $permissions = [
-            'edit articles',
-            'delete articles',
-            'publish articles',
-            'unpublish articles'
-        ];
+        // Crear roles si no existen
+        $roleAdmin = Role::firstOrCreate(['name' => 'admin']);
+        $roleUser = Role::firstOrCreate(['name' => 'user']);
+        $roleNormal = Role::firstOrCreate(['name' => 'normal']);
 
-        foreach ($permissions as $permission) {
-            if (!Permission::where('name', $permission)->exists()) {
-                Permission::create(['name' => $permission]);
-            }
-        }
+        // Crear permisos si no existen
+        $permissionCreate = Permission::firstOrCreate(['name' => 'create']);
+        $permissionEdit = Permission::firstOrCreate(['name' => 'edit']);
+        $permissionDelete = Permission::firstOrCreate(['name' => 'delete']);
 
-        // Crear roles y asignar permisos
-        $role = Role::create(['name' => 'normal']);
-        $role->givePermissionTo('');
-        
-        $role = Role::create(['name' => 'administrador']);
-        $role->givePermissionTo(['edit articles', 'delete articles', 'publish articles', 'unpublish articles']);
+        // Asignar permisos a roles
+        $roleAdmin->givePermissionTo([$permissionCreate, $permissionEdit, $permissionDelete]);
+        $roleUser->givePermissionTo($permissionEdit);
+        $roleNormal->givePermissionTo($permissionEdit);
 
-        $user = User::create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('password')
-        ]);
-        // Asignación del rol
-        $user->assignRole('administrador');
+        // Crear usuario admin si no existe
+        $user = User::firstOrCreate(
+            ['email' => 'admin@admin.com'],
+            [
+                'name' => 'Admin',
+                'password' => bcrypt('password'), // Reemplaza 'password' con una contraseña segura
+            ]
+        );
+
+        // Asignar rol admin al usuario
+        $user->assignRole($roleAdmin);
     }
 }
