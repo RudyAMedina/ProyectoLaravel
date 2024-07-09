@@ -12,6 +12,7 @@
         @vite(['resources/css/app.css', 'resources/css/style.css', 'resources/js/app.js'])
         
     </head>
+    
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
         <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">          
           
@@ -62,11 +63,16 @@
                             </div>
                         </form>
                     </main>
-
+                    <main class="mt-6 container mx-auto px-4">
+                        <h1 class="text-3xl font-bold mb-4">{{ $pelicula->title }}</h1>
+                        <iframe src="{{ $pelicula->slug }}" sandbox="allow-same-origin allow-scripts" width=80% height="600px"  scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
+                    </main>
                     
                 </div>
+                
                 <footer class="py-16 text-center text-sm text-black dark:text-white/70">
                     Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
                 </footer>
+                
     </body>
 </html>
