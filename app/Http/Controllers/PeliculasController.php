@@ -100,10 +100,10 @@ class PeliculasController extends Controller
      * Display the specified resource.
      */
     public function show($id)
-{
-    $pelicula = Peliculas::findOrFail($id);
-    return view('peliculas.show', compact('pelicula'));
-}
+    {
+        $pelicula = Peliculas::with('comments.user')->findOrFail($id);
+        return view('peliculas.show', compact('pelicula'));
+    }
 
 
     /**

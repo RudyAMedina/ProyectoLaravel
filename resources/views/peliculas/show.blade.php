@@ -33,8 +33,12 @@
                                         href="{{ url('/dashboard') }}"
                                         class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                     >
-                                        Dashboard
-                                    </a>
+                                    <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
+                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                      </svg>
+                                     {{ Auth::user()->name }}</div>
+                                </a>
                                 @else
                                     <a
                                         href="{{ route('login') }}"
@@ -62,13 +66,50 @@
                                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-r-lg">Buscar</button>
                             </div>
                         </form>
-                    </main>
-                    <main class="mt-6 container mx-auto px-4">
+                    
                         <h1 class="text-3xl font-bold mb-4">{{ $pelicula->title }}</h1>
+                        <h3>Calificacion: {{ number_format($pelicula->averageRating(), 2) }}</h3>
                         <iframe src="{{ $pelicula->slug }}" sandbox="allow-same-origin allow-scripts" width=80% height="600px" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
-                    </main>                 
+
+                        <h3>Calificacion pelicula <h3>
+                        <form action="{{ route('rate') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="peliculas_id" value="{{ $pelicula->id }}">
+
+                            <div class="rating">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}">
+                                    <label for="star{{ $i }}">{{ $i }} estrella</label>
+                                @endfor
+                            </div>
+                            <button type="submit" class="btn btn-primary">Calificar</button>
+                        </form>
+                  
+                <div>
+                    <h3>Agregar comentario:</h3>
+                    <form action="{{ route('comments.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="peliculas_id" value="{{ $pelicula->id }}">
+                        <div class="form-group">
+                            <textarea name="content" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar comentario</button>
+                    </form>
                 </div>
                 
+                <div>
+                    <h3>Commentarios:</h3>
+                    
+                        @foreach($pelicula->comments as $comment)
+                            <div class="comment">
+                                <p><strong>{{ $comment->user->name }}:</strong></p>
+                                <p>{{ $comment->content }}</p>
+                            </div>
+                        @endforeach
+                    
+                </div>
+            </main>                 
+        </div>
                 <footer class="py-16 text-center text-sm text-black dark:text-white/70">
                     Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
                 </footer>

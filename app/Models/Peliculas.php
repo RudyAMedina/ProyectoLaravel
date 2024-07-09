@@ -19,4 +19,18 @@ class Peliculas extends Model
         {
             return $this->belongsTo(Categorias::class, 'category_id');
         }
+    public function ratings()
+        {
+        return $this->hasMany(Rating::class);
+        }
+
+    public function averageRating()
+        {
+        return $this->ratings()->avg('rating');
+        }
+        
+    public function comments()
+        {
+            return $this->hasMany(Comment::class);
+        }
 }
