@@ -106,11 +106,7 @@
                                                                         <path d="M50,17.4h0M50,50h0m0,32.6h0M50,22a4.7,4.7,0,1,1,4.7-4.6A4.7,4.7,0,0,1,50,22Zm0,32.7A4.7,4.7,0,1,1,54.7,50,4.7,4.7,0,0,1,50,54.7Zm0,32.6a4.7,4.7,0,1,1,4.7-4.7A4.7,4.7,0,0,1,50,87.3Z" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
                                                                     </svg>
                                                                 </div>
-                                                                <div class="absolute bottom-0 bg-gray-50 w-full p-3 flex flex-col gap-1 rounded-b-2xl">
-                                                                    <span class="text-lime-400 font-bold text-xs">TAILWIND</span>
-                                                                    <span class="text-gray-800 font-bold text-3xl">{{ $pelicula->title }}</span>
-                                                                    <p class="text-neutral-800">{{ $pelicula->description }}</p>
-                                                                </div>
+                                                                
                                                             </a>
                                                         </div>
                                                     @endif
