@@ -11,7 +11,7 @@ class Rating extends Model
     protected $fillable = ['user_id', 'peliculas_id', 'rating'];
     public function pelicula()
     {
-        return $this->belongsTo(peliculas::class);
+        return $this->belongsTo(peliculas::class, 'peliculas_id');
     }
     public function user()
     {

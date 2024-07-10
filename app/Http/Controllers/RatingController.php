@@ -4,10 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Rating;
+use App\Models\Peliculas;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class RatingController extends Controller
 {
+    public function index($userId)
+    {
+        // Obtener el usuario por ID
+        $user = User::find($userId);
+
+        if (!$user) {
+            abort(404);
+        }
+
+        // Obtener las calificaciones del usuario
+        $calificaciones = $user->ratings()->paginate(10);
+
+        return view('calificaciones.dashboard', compact('calificaciones'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -21,5 +38,10 @@ class RatingController extends Controller
             );
 
         return back()->with('success', 'Rating submitted successfully');
+    }
+    public function destroy(Rating $rating)
+    {
+        $rating->delete();
+        return redirect()->route('calificaciones.index')->with('success', 'Calificación eliminada.');
     }
 }

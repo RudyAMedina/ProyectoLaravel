@@ -13,7 +13,7 @@ class Comment extends Model
 
     public function pelicula()
     {
-        return $this->belongsTo(Peliculas::class);
+        return $this->belongsTo(Peliculas::class, 'peliculas_id');
     }
 
     public function user()

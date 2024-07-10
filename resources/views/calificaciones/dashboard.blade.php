@@ -9,7 +9,6 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <!--contenido -->
-                    <div>{{ Auth::user()->id }}</div>
                     <div>
                         <br>
                         @if ($errors->any())
@@ -33,16 +32,16 @@
                             <tr>
                                 <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                                 <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Peliculas</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Comentario</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Acción</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Puntuacion</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Puntuacion</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($comentarios as $nota)
+                            @foreach($calificaciones as $nota)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">{{ $nota->id }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">{{ $nota->pelicula->title }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">{{ $nota->content }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">{{ $nota->rating }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center align-middle">
                                         <div class="flex items-center">
                                             <a href="{{ route('categories.edit', $nota->id) }}" class="inline-block mr-4">
@@ -67,8 +66,8 @@
                         </tbody>
                     </table>
                     <br>
-                        @if($comentarios->count())
-                            {{ $comentarios->links('vendor.pagination.semantic-ui') }}
+                        @if($calificaciones->count())
+                            {{ $calificaciones->links('vendor.pagination.semantic-ui') }}
                         @else
                             <p>No hay posts disponibles.</p>
                         @endif
@@ -77,4 +76,5 @@
             </div>
         </div>
     </div>
+    
 </x-app-layout>

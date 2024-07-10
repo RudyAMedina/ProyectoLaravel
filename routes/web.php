@@ -11,14 +11,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
-        if (auth()->user()->hasRole('administrador')) {
+        // Obtener el usuario autenticado
+        $user = auth()->user();
+
+        if ($user->hasRole('administrador')) {
+            // si el usuario es administrador, muestra el dashboard de películas
             return app(PeliculasController::class)->index();
         } else {
-            return view('userdashboard');
+            // si no es administrador, muestra el userdashboard
+            $userId = $user->id;
+            return app(CommentController::class)->index($userId);
         }
     })->name('dashboard');
 });
@@ -44,18 +48,21 @@ Route::get('/Categorias', function () {
     return view('Categorias');
 })->middleware(['auth', 'verified'])->name('Categorias');
 
-
-
-
-
-Route::get('/email/verify', [App\Http\Controllers\Auth\EmailVerificationPromptController::class, '__invoke'])->middleware(['auth', 'throttle:6,1'])->name('verification.notice');
-
-require __DIR__.'/auth.php';
-
 //Ruta para manejar las calificaciones de las peliculas
 Route::middleware('auth')->group(function () {
     Route::post('/rate', [RatingController::class, 'store'])->name('rate');
     });
+
+//ruta para pasar el id del usuario
+Route::middleware(['auth'])->group(function () {
+    Route::get('/calificaciones', function () {
+        $user = auth()->user();
+        $userId = $user->id;
+        return app(RatingController::class)->index($userId);
+    })->name('calificaciones.index');
+});
+
+Route::delete('/calificaciones/{rating}', [RatingController::class, 'destroy'])->name('calificaciones.destroy');
 
 //ruta para manejar los comentarios de las peliculas
 Route::middleware('auth')->group(function () {
@@ -63,4 +70,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-

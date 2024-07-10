@@ -5,9 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class CommentController extends Controller
 {
+    public function index($userId)
+    {
+        $user = User::find($userId);
+   
+        if (!$user) {
+            abort(404);
+        }
+       
+        // Paginar los comentarios del usuario
+        $comentarios = $user->comments()->paginate(10); // 10 comentarios por página
+       
+        return view('userdashboard', compact('comentarios'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([

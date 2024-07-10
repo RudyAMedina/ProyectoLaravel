@@ -5,24 +5,38 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="mx-auto h-16">
-                    </a>
+                    <a href="{{ url('/') }}"
+                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="mx-auto h-20">
+                </a>
                 </div>
                 @if(Auth::check() && Auth::user()->hasRole('administrador'))
-                            <!-- Navigation Links -->
-                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <x-nav-link id="nav-panel" href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                                {{ __('Peliculas') }}
-                            </x-nav-link>
-                        </div>
-                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <x-nav-link id="nav-categorias" href="{{ route('categories.index') }}" :active="request()->routeIs('categories.*')">
-                                {{ __('Categorías') }}
-                            </x-nav-link>
-                        </div>
+                                <!-- Navigation Links -->
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link id="nav-panel" href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                            {{ __('Peliculas') }}
+                        </x-nav-link>
                     </div>
-                 @endif
+                            
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link id="nav-categorias" href="{{ route('categories.index') }}" :active="request()->routeIs('categories.*')">
+                            {{ __('Categorías') }}
+                        </x-nav-link>
+                    </div>
+                @else
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link id="nav-comentarios" href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                            {{ __('Comentarios') }}
+                        </x-nav-link>
+                    </div>
+                            
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link id="nav-calificaiones" href="{{ route('calificaciones.index') }}" :active="request()->routeIs('calificaciones.*')">
+                            {{ __('Calificaciones') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+            </div>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
