@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
+
 class PeliculasController extends Controller
 {
     /**

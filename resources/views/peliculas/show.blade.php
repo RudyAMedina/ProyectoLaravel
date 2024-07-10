@@ -14,65 +14,47 @@
 
 </head>
 
-<body class="font-sans antialiased dark:bg-black dark:text-white/50">
-    <div class="container mx-auto">
-        <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
-                <div class="flex items-center lg:col-start-1">
-                    <!-- Logo -->
-                    <a href="{{ url('/') }}"
-                       class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-16">
-                    </a>
-                </div>
-                <div class="flex items-center justify-end lg:col-start-3 lg:justify-end mt-6">
-                    <!-- Menú de usuario -->
-                    <div class="p-4 rounded-lg shadow-md">
-                        @if (Route::has('login'))
-                            @auth
-                                <div class="hidden sm:flex sm:items-center sm:ms-6">
-                                    <x-dropdown align="right" width="48">
-                                        <x-slot name="trigger">
-                                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                                                <div>{{ Auth::user()->name }}</div>
-                                                <div class="ml-1">
-                                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                    </svg>
-                                                </div>
-                                            </button>
-                                        </x-slot>
-                                        <x-slot name="content">
-                                            <x-dropdown-link :href="route('profile.edit')">
-                                                {{ __('Perfil') }}
-                                            </x-dropdown-link>
-                                            <!-- Authentication -->
-                                            <form method="POST" action="{{ route('logout') }}">
-                                                @csrf
-                                                <x-dropdown-link :href="route('logout')"
-                                                                 onclick="event.preventDefault();
-                                                                 this.closest('form').submit();">
-                                                    {{ __('Cerrar Sesión') }}
-                                                </x-dropdown-link>
-                                            </form>
-                                        </x-slot>
-                                    </x-dropdown>
-                                </div>
-                            @else
-                                <a href="{{ route('login') }}"
-                                   class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                    Ingresar
-                                </a>
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}"
-                                       class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                        Registrarse
-                                    </a>
-                                @endif
-                            @endauth
-                        @endif
+<body class="font-sans antialiased dark:bg-black dark:text-white/100">
+    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
+
+        <header class="flex items-center justify-between py-10">
+            <div class="flex items-center">
+                <!-- icono de la pagina -->
+                <a href="{{ url('/') }}"
+                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-16">
+                </a>
+            </div>
+            @if (Route::has('login'))
+            <nav class="flex space-x-4">
+                @auth
+                <a href="{{ url('/dashboard') }}"
+                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                    <div class="flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px"
+                            height="24px">
+                            <path
+                                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
+                        {{ Auth::user()->name }}
                     </div>
-                </div>
+                </a>
+                @else
+                <a href="{{ route('login') }}"
+                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                    Ingresar
+                </a>
+                @if (Route::has('register'))
+                <a href="{{ route('register') }}"
+                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                    Registrarse
+                </a>
+                @endif
+                @endauth
+            </nav>
+            @endif
         </header>
+
         <main class="mt-6 container mx-auto px-4">
             <form action="{{ route('peliculas.lista') }}" method="GET" class="mb-8">
                 <div class="flex justify-center">
@@ -82,128 +64,184 @@
                 </div>
             </form>
 
-            <div class="container mt-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md mx-auto">
-                
-                <h1 class="text-3xl font-bold mb-4">{{ $pelicula->title }}</h1>
+            <h1 class="text-3xl font-bold mb-4">{{ $pelicula->title }}</h1>
+            <h3>Calificacion: {{ number_format($pelicula->averageRating(), 2) }}</h3>
+            <iframe src="{{ $pelicula->slug }}" sandbox="allow-same-origin allow-scripts" width=80% height="600px"
+                scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
 
-                <!-- aqui mostramos la calificacion sacando un promedio y mostrandolo con estrellas-->
-                <h3>Calificación: {{ number_format($pelicula->averageRating(), 2) }}</h3>
-                <div class="flex items-center">
-                    @for ($i = 1; $i <= 5; $i++)
-                        @if ($i <= floor($pelicula->averageRating()))
-                            <!-- Estrella llena -->
-                            <svg class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M9.049 2.927C9.337 2.036 10.663 2.036 10.951 2.927L12.084 6.518L15.967 7.03C16.919 7.155 17.261 8.28 16.541 8.879L13.812 11.137L14.625 14.901C14.809 15.832 13.774 16.538 13.004 15.997L9.999 13.982L6.995 15.997C6.225 16.538 5.19 15.832 5.374 14.901L6.187 11.137L3.458 8.879C2.738 8.28 3.08 7.155 4.032 7.03L7.915 6.518L9.049 2.927Z"/>
-                            </svg>
-                        @elseif ($i - 0.5 <= $pelicula->averageRating())
-                            <!-- Media estrella -->
-                            <svg class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <linearGradient id="half">
-                                        <stop offset="50%" stop-color="currentColor"/>
-                                        <stop offset="50%" stop-color="transparent"/>
-                                    </linearGradient>
-                                </defs>
-                                <path fill="url(#half)" d="M9.049 2.927C9.337 2.036 10.663 2.036 10.951 2.927L12.084 6.518L15.967 7.03C16.919 7.155 17.261 8.28 16.541 8.879L13.812 11.137L14.625 14.901C14.809 15.832 13.774 16.538 13.004 15.997L9.999 13.982L6.995 15.997C6.225 16.538 5.19 15.832 5.374 14.901L6.187 11.137L3.458 8.879C2.738 8.28 3.08 7.155 4.032 7.03L7.915 6.518L9.049 2.927Z"/>
-                            </svg>
-                        @else
-                            <!-- Estrella vacía -->
-                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927C11.337 2.036 12.663 2.036 12.951 2.927L14.084 6.518L17.967 7.03C18.919 7.155 19.261 8.28 18.541 8.879L15.812 11.137L16.625 14.901C16.809 15.832 15.774 16.538 15.004 15.997L11.999 13.982L8.995 15.997C8.225 16.538 7.19 15.832 7.374 14.901L8.187 11.137L5.458 8.879C4.738 8.28 5.08 7.155 6.032 7.03L9.915 6.518L11.049 2.927Z"/>
-                            </svg>
-                        @endif
-                    @endfor
-                </div>
-
-                <!-- aqui es donde se trae y carga la pelicula -->
-                <iframe src="{{ $pelicula->slug }}" 
-                        sandbox="allow-same-origin allow-scripts" width=80% height="600px"
-                        scrolling="no" 
-                        frameborder="0" 
-                        allowfullscreen="true">
-                </iframe>
-
-                <!-- este div contiene la manera en que calificamos la pelicula -->
-                <div class="mt-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md mx-auto">
-                    <h3 class="text-xl font-semibold mb-4 text-center">Califica esta película</h3>
-                    <form action="{{ route('rate') }}" method="POST" class="flex flex-col items-center">
+            <div class="rating-comments-container mt-8 p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
+                <!-- Calificación de Película -->
+                <div class="rating-section mb-6">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Calificación de la película
+                    </h3>
+                    <form action="{{ route('rate') }}" method="POST">
                         @csrf
                         <input type="hidden" name="peliculas_id" value="{{ $pelicula->id }}">
 
-                        <div class="flex items-center space-x-1">
-                            @for($i = 1; $i <= 5; $i++) <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}"
-                                class="hidden peer" required>
-                                <label for="star{{ $i }}"
-                                    class="cursor-pointer text-gray-300 hover:text-yellow-400 text-3xl peer-checked:text-yellow-500">
-                                    ★
-                                </label>
-                                @endfor
+                        <div class="rating flex space-x-1 mb-4">
+                            @for($i = 1; $i
+                            <= 5; $i++) <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}"
+                                class="hidden" />
+                            <label for="star{{ $i }}" class="cursor-pointer">
+                                <!-- Aquí puedes usar el SVG o Font Awesome -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 star-icon" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path
+                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z" />
+                                </svg>
+                            </label>
+                            @endfor
                         </div>
-
-                        <button type="submit"
-                            class="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            Enviar Calificación
-                        </button>
+                        <button type="submit" class="btn btn-primary">Calificar</button>
                     </form>
                 </div>
 
+                <!-- Agregar Comentario -->
+                <div class="comment-section mb-6">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Agregar comentario:</h3>
+                    <form action="{{ route('comments.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="peliculas_id" value="{{ $pelicula->id }}">
+                        <div class="form-group mb-4">
+                            <textarea name="content"
+                                class="form-control p-3 border rounded-lg w-full text-gray-900 dark:bg-gray-700 dark:text-gray-300"
+                                rows="3" placeholder="Escribe tu comentario aquí..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar comentario</button>
+                    </form>
+                </div>
+
+                <!-- Mostrar Comentarios -->
+                <div
+                    class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="flex items-center justify-between mb-4">
+                        <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Últimos comentarios
+                        </h5>
+                        <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                            <!-- Enlace opcional -->
+                        </a>
+                    </div>
+
+                    <div class="flow-root">
+                        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach($pelicula->comments as $comment)
+                            <li class="py-3 sm:py-4">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            width="40px" height="40px">
+                                            <path
+                                                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0 ms-4">
+                                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                            {{ $comment->user->name }}
+                                        </p>
+                                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                            {{ $comment->content }}
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                        <!-- Aquí puedes agregar alguna información adicional si es necesario -->
+                                    </div>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+
+
+
                 <style>
-                .rating input:checked~label {
-                    color: #FF2D20;
-                    /* Cambia el color de las estrellas al seleccionar */
+                /* Contenedor de calificación y comentarios */
+                .rating-comments-container {
+                    background-color: #f0f0f0;
+                    /* Fondo claro */
                 }
 
-                .rating label:hover {
-                    color: #FFD700;
-                    /* Cambia el color de las estrellas al pasar el cursor */
+                .rating-comments-container .rating {
+                    display: flex;
+                    gap: 0.25rem;
+                }
+
+                /* Estilos para las estrellas */
+                .star-icon {
+                    color: #d1d5db;
+                    /* Color gris de estrella */
+                    transition: color 0.2s ease;
+                    /* Transición suave para el color */
+                }
+
+                .rating input:checked~label .star-icon {
+                    color: #f59e0b;
+                    /* Color amarillo para las estrellas seleccionadas */
+                }
+
+                .rating label:hover~label .star-icon {
+                    color: #fbbf24;
+                    /* Color amarillo más claro al pasar el ratón */
+                }
+
+                /* Estilo de los botones */
+                .btn-primary {
+                    background-color: #3b82f6;
+                    /* Color de fondo azul */
+                    color: white;
+                    /* Color del texto */
+                    padding: 0.5rem 1rem;
+                    /* Espaciado del botón */
+                    border-radius: 0.375rem;
+                    /* Bordes redondeados */
+                    transition: background-color 0.2s ease;
+                    /* Transición suave para el color de fondo */
+                }
+
+                .btn-primary:hover {
+                    background-color: #2563eb;
+                    /* Color de fondo al pasar el ratón */
+                }
+
+                /* Estilos para el formulario de comentario */
+                .form-control {
+                    border: 1px solid #d1d5db;
+                    /* Borde gris claro */
+                }
+
+                /* Estilos para el formulario de comentario en modo oscuro */
+                .dark .form-control {
+                    background-color: #1f2937;
+                    /* Fondo oscuro */
+                    border-color: #4b5563;
+                    /* Borde gris oscuro */
+                }
+
+                /* Estilo para el área de comentarios */
+                .comments-list .comment {
+                    background-color: #ffffff;
+                    /* Fondo blanco */
+                    border: 1px solid #e5e7eb;
+                    /* Borde gris claro */
+                    color: #374151;
+                    /* Texto gris oscuro */
+                }
+
+                .dark .comments-list .comment {
+                    background-color: #111827;
+                    /* Fondo oscuro */
+                    border-color: #4b5563;
+                    /* Borde gris oscuro */
+                    color: #d1d5db;
+                    /* Texto gris claro */
                 }
                 </style>
 
-
-                <!-- este div contiene todo para generar un comentario -->
-                <div class="mt-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md mx-auto">
-                    <h3 class="text-xl font-semibold mb-4">Agregar comentario:</h3>
-                    <form action="{{ route('comments.store') }}" method="POST" class="space-y-4">
-                        @csrf
-                        <input type="hidden" name="peliculas_id" value="{{ $pelicula->id }}">
-
-                        <div>
-                            <textarea name="content"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF2D20] resize-none text-black"
-                                rows="4" required placeholder="Escribe tu comentario aquí..."></textarea>
-                        </div>
-
-                        <button type="submit"
-                            class="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            Enviar comentario
-                        </button>
-                    </form>
-                </div>
-
-                <!-- este div trae los comentarios de la pelicula y los muestra en la pagina -->
-                <div class="mt-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md mx-auto">
-                    <h3 class="text-xl font-semibold mb-4">Comentarios:</h3>
-
-                    @foreach($pelicula->comments as $comment)
-                    <div class="mb-4 p-4 bg-gray-100 rounded-lg shadow-sm">
-                        <div class="flex items-center space-x-2 mb-2">
-                            <div
-                                class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                                {{ strtoupper(substr($comment->user->name, 0, 1)) }}
-                            </div>
-                            <div class="text-gray-800 font-semibold">{{ $comment->user->name }}</div>
-                        </div>
-                        <p class="text-gray-700">{{ $comment->content }}</p>
-                    </div>
-                    @endforeach
-                </div>
             </div>
-        </main>
-    </div>
-
-    <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-    </footer>
+            <footer class="py-16 text-center text-sm text-black dark:text-white/70">
+                Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+            </footer>
 
 </body>
 
