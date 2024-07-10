@@ -112,105 +112,136 @@
                 </div>
 
                 <!-- Mostrar Comentarios -->
-                <div class="comments-list">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Comentarios:</h3>
-                    @foreach($pelicula->comments as $comment)
-                    <div class="comment p-4 mb-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
-                        <p class="text-gray-700 dark:text-gray-300"><strong>{{ $comment->user->name }}:</strong></p>
-                        <p class="text-gray-600 dark:text-gray-400">{{ $comment->content }}</p>
+                <div
+                    class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="flex items-center justify-between mb-4">
+                        <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Últimos comentarios
+                        </h5>
+                        <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                            <!-- Enlace opcional -->
+                        </a>
                     </div>
-                    @endforeach
+
+                    <div class="flow-root">
+                        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach($pelicula->comments as $comment)
+                            <li class="py-3 sm:py-4">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            width="40px" height="40px">
+                                            <path
+                                                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0 ms-4">
+                                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                            {{ $comment->user->name }}
+                                        </p>
+                                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                            {{ $comment->content }}
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                        <!-- Aquí puedes agregar alguna información adicional si es necesario -->
+                                    </div>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
+
+
+
+                <style>
+                /* Contenedor de calificación y comentarios */
+                .rating-comments-container {
+                    background-color: #f0f0f0;
+                    /* Fondo claro */
+                }
+
+                .rating-comments-container .rating {
+                    display: flex;
+                    gap: 0.25rem;
+                }
+
+                /* Estilos para las estrellas */
+                .star-icon {
+                    color: #d1d5db;
+                    /* Color gris de estrella */
+                    transition: color 0.2s ease;
+                    /* Transición suave para el color */
+                }
+
+                .rating input:checked~label .star-icon {
+                    color: #f59e0b;
+                    /* Color amarillo para las estrellas seleccionadas */
+                }
+
+                .rating label:hover~label .star-icon {
+                    color: #fbbf24;
+                    /* Color amarillo más claro al pasar el ratón */
+                }
+
+                /* Estilo de los botones */
+                .btn-primary {
+                    background-color: #3b82f6;
+                    /* Color de fondo azul */
+                    color: white;
+                    /* Color del texto */
+                    padding: 0.5rem 1rem;
+                    /* Espaciado del botón */
+                    border-radius: 0.375rem;
+                    /* Bordes redondeados */
+                    transition: background-color 0.2s ease;
+                    /* Transición suave para el color de fondo */
+                }
+
+                .btn-primary:hover {
+                    background-color: #2563eb;
+                    /* Color de fondo al pasar el ratón */
+                }
+
+                /* Estilos para el formulario de comentario */
+                .form-control {
+                    border: 1px solid #d1d5db;
+                    /* Borde gris claro */
+                }
+
+                /* Estilos para el formulario de comentario en modo oscuro */
+                .dark .form-control {
+                    background-color: #1f2937;
+                    /* Fondo oscuro */
+                    border-color: #4b5563;
+                    /* Borde gris oscuro */
+                }
+
+                /* Estilo para el área de comentarios */
+                .comments-list .comment {
+                    background-color: #ffffff;
+                    /* Fondo blanco */
+                    border: 1px solid #e5e7eb;
+                    /* Borde gris claro */
+                    color: #374151;
+                    /* Texto gris oscuro */
+                }
+
+                .dark .comments-list .comment {
+                    background-color: #111827;
+                    /* Fondo oscuro */
+                    border-color: #4b5563;
+                    /* Borde gris oscuro */
+                    color: #d1d5db;
+                    /* Texto gris claro */
+                }
+                </style>
+
             </div>
-
-
-            <style>
-            /* Contenedor de calificación y comentarios */
-            .rating-comments-container {
-                background-color: #f0f0f0;
-                /* Fondo claro */
-            }
-
-            .rating-comments-container .rating {
-                display: flex;
-                gap: 0.25rem;
-            }
-
-            /* Estilos para las estrellas */
-            .star-icon {
-                color: #d1d5db;
-                /* Color gris de estrella */
-                transition: color 0.2s ease;
-                /* Transición suave para el color */
-            }
-
-            .rating input:checked~label .star-icon {
-                color: #f59e0b;
-                /* Color amarillo para las estrellas seleccionadas */
-            }
-
-            .rating label:hover~label .star-icon {
-                color: #fbbf24;
-                /* Color amarillo más claro al pasar el ratón */
-            }
-
-            /* Estilo de los botones */
-            .btn-primary {
-                background-color: #3b82f6;
-                /* Color de fondo azul */
-                color: white;
-                /* Color del texto */
-                padding: 0.5rem 1rem;
-                /* Espaciado del botón */
-                border-radius: 0.375rem;
-                /* Bordes redondeados */
-                transition: background-color 0.2s ease;
-                /* Transición suave para el color de fondo */
-            }
-
-            .btn-primary:hover {
-                background-color: #2563eb;
-                /* Color de fondo al pasar el ratón */
-            }
-
-            /* Estilos para el formulario de comentario */
-            .form-control {
-                border: 1px solid #d1d5db;
-                /* Borde gris claro */
-            }
-
-            /* Estilos para el formulario de comentario en modo oscuro */
-            .dark .form-control {
-                background-color: #1f2937;
-                /* Fondo oscuro */
-                border-color: #4b5563;
-                /* Borde gris oscuro */
-            }
-
-            /* Estilo para el área de comentarios */
-            .comments-list .comment {
-                background-color: #ffffff;
-                /* Fondo blanco */
-                border: 1px solid #e5e7eb;
-                /* Borde gris claro */
-                color: #374151;
-                /* Texto gris oscuro */
-            }
-
-            .dark .comments-list .comment {
-                background-color: #111827;
-                /* Fondo oscuro */
-                border-color: #4b5563;
-                /* Borde gris oscuro */
-                color: #d1d5db;
-                /* Texto gris claro */
-            }
-            </style>
-
-    </div>
-    <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-    </footer>
+            <footer class="py-16 text-center text-sm text-black dark:text-white/70">
+                Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+            </footer>
 
 </body>
 
