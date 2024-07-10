@@ -14,23 +14,23 @@
 
 </head>
 
-<body class="font-sans antialiased dark:bg-black dark:text-white/50">
+<body class="font-sans antialiased dark:bg-black dark:text-white/100">
     <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
 
-        <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
-            <div class="flex lg:justify-center lg:col-start-2">
+        <header class="flex items-center justify-between py-10">
+            <div class="flex items-center">
                 <!-- icono de la pagina -->
                 <a href="{{ url('/') }}"
                     class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="mx-auto h-16">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-16">
                 </a>
             </div>
             @if (Route::has('login'))
-            <nav class="-mx-3 flex flex-1 justify-end">
+            <nav class="flex space-x-4">
                 @auth
                 <a href="{{ url('/dashboard') }}"
                     class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                    <div>
+                    <div class="flex items-center space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px"
                             height="24px">
                             <path
@@ -44,7 +44,6 @@
                     class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                     Ingresar
                 </a>
-
                 @if (Route::has('register'))
                 <a href="{{ route('register') }}"
                     class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
@@ -55,6 +54,7 @@
             </nav>
             @endif
         </header>
+
         <main class="mt-6 container mx-auto px-4">
             <form action="{{ route('peliculas.lista') }}" method="GET" class="mb-8">
                 <div class="flex justify-center">
@@ -69,117 +69,142 @@
             <iframe src="{{ $pelicula->slug }}" sandbox="allow-same-origin allow-scripts" width=80% height="600px"
                 scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
 
-                <div class="rating-comments-container mt-8 p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
-    <!-- Calificación de Película -->
-    <div class="rating-section mb-6">
-        <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Calificación de la película</h3>
-        <form action="{{ route('rate') }}" method="POST">
-            @csrf
-            <input type="hidden" name="peliculas_id" value="{{ $pelicula->id }}">
+            <div class="rating-comments-container mt-8 p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
+                <!-- Calificación de Película -->
+                <div class="rating-section mb-6">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Calificación de la película
+                    </h3>
+                    <form action="{{ route('rate') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="peliculas_id" value="{{ $pelicula->id }}">
 
-            <div class="rating flex space-x-1 mb-4">
-                @for($i = 1; $i <= 5; $i++)
-                    <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" class="hidden" />
-                    <label for="star{{ $i }}" class="cursor-pointer">
-                        <!-- Aquí puedes usar el SVG o Font Awesome -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 star-icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/>
-                        </svg>
-                    </label>
-                @endfor
-            </div>
-            <button type="submit" class="btn btn-primary">Calificar</button>
-        </form>
-    </div>
+                        <div class="rating flex space-x-1 mb-4">
+                            @for($i = 1; $i
+                            <= 5; $i++) <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}"
+                                class="hidden" />
+                            <label for="star{{ $i }}" class="cursor-pointer">
+                                <!-- Aquí puedes usar el SVG o Font Awesome -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 star-icon" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path
+                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z" />
+                                </svg>
+                            </label>
+                            @endfor
+                        </div>
+                        <button type="submit" class="btn btn-primary">Calificar</button>
+                    </form>
+                </div>
 
-    <!-- Agregar Comentario -->
-    <div class="comment-section mb-6">
-        <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Agregar comentario:</h3>
-        <form action="{{ route('comments.store') }}" method="POST">
-            @csrf
-            <input type="hidden" name="peliculas_id" value="{{ $pelicula->id }}">
-            <div class="form-group mb-4">
-                <textarea name="content" class="form-control p-3 border rounded-lg w-full text-gray-900 dark:bg-gray-700 dark:text-gray-300" rows="3" placeholder="Escribe tu comentario aquí..." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Enviar comentario</button>
-        </form>
-    </div>
+                <!-- Agregar Comentario -->
+                <div class="comment-section mb-6">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Agregar comentario:</h3>
+                    <form action="{{ route('comments.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="peliculas_id" value="{{ $pelicula->id }}">
+                        <div class="form-group mb-4">
+                            <textarea name="content"
+                                class="form-control p-3 border rounded-lg w-full text-gray-900 dark:bg-gray-700 dark:text-gray-300"
+                                rows="3" placeholder="Escribe tu comentario aquí..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar comentario</button>
+                    </form>
+                </div>
 
-    <!-- Mostrar Comentarios -->
-    <div class="comments-list">
-        <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Comentarios:</h3>
-        @foreach($pelicula->comments as $comment)
-            <div class="comment p-4 mb-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
-                <p class="text-gray-700 dark:text-gray-300"><strong>{{ $comment->user->name }}:</strong></p>
-                <p class="text-gray-600 dark:text-gray-400">{{ $comment->content }}</p>
+                <!-- Mostrar Comentarios -->
+                <div class="comments-list">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Comentarios:</h3>
+                    @foreach($pelicula->comments as $comment)
+                    <div class="comment p-4 mb-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
+                        <p class="text-gray-700 dark:text-gray-300"><strong>{{ $comment->user->name }}:</strong></p>
+                        <p class="text-gray-600 dark:text-gray-400">{{ $comment->content }}</p>
+                    </div>
+                    @endforeach
+                </div>
             </div>
-        @endforeach
-    </div>
-</div>
 
 
             <style>
             /* Contenedor de calificación y comentarios */
-.rating-comments-container {
-    background-color: #f0f0f0; /* Fondo claro */
-}
+            .rating-comments-container {
+                background-color: #f0f0f0;
+                /* Fondo claro */
+            }
 
-.rating-comments-container .rating {
-    display: flex;
-    gap: 0.25rem;
-}
+            .rating-comments-container .rating {
+                display: flex;
+                gap: 0.25rem;
+            }
 
-/* Estilos para las estrellas */
-.star-icon {
-    color: #d1d5db; /* Color gris de estrella */
-    transition: color 0.2s ease; /* Transición suave para el color */
-}
+            /* Estilos para las estrellas */
+            .star-icon {
+                color: #d1d5db;
+                /* Color gris de estrella */
+                transition: color 0.2s ease;
+                /* Transición suave para el color */
+            }
 
-.rating input:checked ~ label .star-icon {
-    color: #f59e0b; /* Color amarillo para las estrellas seleccionadas */
-}
+            .rating input:checked~label .star-icon {
+                color: #f59e0b;
+                /* Color amarillo para las estrellas seleccionadas */
+            }
 
-.rating label:hover ~ label .star-icon {
-    color: #fbbf24; /* Color amarillo más claro al pasar el ratón */
-}
+            .rating label:hover~label .star-icon {
+                color: #fbbf24;
+                /* Color amarillo más claro al pasar el ratón */
+            }
 
-/* Estilo de los botones */
-.btn-primary {
-    background-color: #3b82f6; /* Color de fondo azul */
-    color: white; /* Color del texto */
-    padding: 0.5rem 1rem; /* Espaciado del botón */
-    border-radius: 0.375rem; /* Bordes redondeados */
-    transition: background-color 0.2s ease; /* Transición suave para el color de fondo */
-}
+            /* Estilo de los botones */
+            .btn-primary {
+                background-color: #3b82f6;
+                /* Color de fondo azul */
+                color: white;
+                /* Color del texto */
+                padding: 0.5rem 1rem;
+                /* Espaciado del botón */
+                border-radius: 0.375rem;
+                /* Bordes redondeados */
+                transition: background-color 0.2s ease;
+                /* Transición suave para el color de fondo */
+            }
 
-.btn-primary:hover {
-    background-color: #2563eb; /* Color de fondo al pasar el ratón */
-}
+            .btn-primary:hover {
+                background-color: #2563eb;
+                /* Color de fondo al pasar el ratón */
+            }
 
-/* Estilos para el formulario de comentario */
-.form-control {
-    border: 1px solid #d1d5db; /* Borde gris claro */
-}
+            /* Estilos para el formulario de comentario */
+            .form-control {
+                border: 1px solid #d1d5db;
+                /* Borde gris claro */
+            }
 
-/* Estilos para el formulario de comentario en modo oscuro */
-.dark .form-control {
-    background-color: #1f2937; /* Fondo oscuro */
-    border-color: #4b5563; /* Borde gris oscuro */
-}
+            /* Estilos para el formulario de comentario en modo oscuro */
+            .dark .form-control {
+                background-color: #1f2937;
+                /* Fondo oscuro */
+                border-color: #4b5563;
+                /* Borde gris oscuro */
+            }
 
-/* Estilo para el área de comentarios */
-.comments-list .comment {
-    background-color: #ffffff; /* Fondo blanco */
-    border: 1px solid #e5e7eb; /* Borde gris claro */
-    color: #374151; /* Texto gris oscuro */
-}
+            /* Estilo para el área de comentarios */
+            .comments-list .comment {
+                background-color: #ffffff;
+                /* Fondo blanco */
+                border: 1px solid #e5e7eb;
+                /* Borde gris claro */
+                color: #374151;
+                /* Texto gris oscuro */
+            }
 
-.dark .comments-list .comment {
-    background-color: #111827; /* Fondo oscuro */
-    border-color: #4b5563; /* Borde gris oscuro */
-    color: #d1d5db; /* Texto gris claro */
-}
-
+            .dark .comments-list .comment {
+                background-color: #111827;
+                /* Fondo oscuro */
+                border-color: #4b5563;
+                /* Borde gris oscuro */
+                color: #d1d5db;
+                /* Texto gris claro */
+            }
             </style>
 
     </div>
