@@ -65,7 +65,7 @@
 
             @if(request()->filled('search'))
             <div class="mb-8">
-                <h2 class="text-2xl font-bold mb-4">Resultados de la búsqueda</h2>
+                <h2 class="text-2xl font-bold mb-4 text-white">Resultados de la búsqueda</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                     @foreach ($peliculas as $pelicula)
                     <div class="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg">
@@ -127,7 +127,7 @@
     @endif
     </main>
 
-    <footer class="py-16 text-center text-sm bg-gray-800 text-white/70">
+    <footer class="py-16 text-center text-sm bg-gray-800 text-white">
         Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
     </footer>
     </div>

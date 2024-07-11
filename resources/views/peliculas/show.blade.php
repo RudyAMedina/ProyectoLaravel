@@ -14,10 +14,10 @@
 
 </head>
 
-<body class="font-sans antialiased dark:bg-black dark:text-white/100">
-    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
+<body class="font-sans antialiased bg-gray-900 text-white">
+    <div class="font-sans antialiased bg-gray-900 text-white">
 
-        <header class="flex items-center justify-between py-10">
+        <header class="flex items-center justify-between py-10 bg-gray-800">
             <div class="flex items-center">
                 <!-- icono de la pagina -->
                 <a href="{{ url('/') }}"
@@ -41,12 +41,12 @@
                 </a>
                 @else
                 <a href="{{ route('login') }}"
-                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                    class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                     Ingresar
                 </a>
                 @if (Route::has('register'))
                 <a href="{{ route('register') }}"
-                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                    class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                     Registrarse
                 </a>
                 @endif
@@ -60,7 +60,7 @@
                 <div class="flex justify-center">
                     <input type="text" name="search" placeholder="Buscar por nombre o categoría"
                         class="px-4 py-2 border rounded-l-lg focus:outline-none text-black">
-                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-r-lg">Buscar</button>
+                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-r-lg">Buscar</button>
                 </div>
             </form>
 
