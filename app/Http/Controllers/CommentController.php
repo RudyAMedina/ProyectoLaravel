@@ -38,4 +38,25 @@ class CommentController extends Controller
 
         return back()->with('success', 'Comment added successfully');
     }
+    public function destroy(Comment $comment)
+    {
+        $comment->delete();
+        return redirect()->route('dashboard')->with('success', 'Comentario eliminado.');
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        //dd($comment);
+        $request->validate([
+            'comment' => 'required|string|max:1000',
+        ]);
+        $comentario = Comment::findOrFail($id);
+
+        $comentario->content = $request->comment;
+        $comentario->save();
+
+        return redirect()->back()->with('success', 'Comentario actualizado correctamente');
+
+    }
 }

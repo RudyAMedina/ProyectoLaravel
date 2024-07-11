@@ -44,4 +44,20 @@ class RatingController extends Controller
         $rating->delete();
         return redirect()->route('calificaciones.index')->with('success', 'Calificación eliminada.');
     }
+
+    public function update(Request $request, $id)
+    {
+     
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+        $calificacion = Rating::findOrFail($id);
+
+        $calificacion->rating = $request->rating;
+        $calificacion->save();
+
+        return redirect()->back()->with('success', 'La calificación actual se actualizo.');
+
+    }
+
 }

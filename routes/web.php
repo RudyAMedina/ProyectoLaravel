@@ -64,9 +64,15 @@ Route::middleware(['auth'])->group(function () {
 
 Route::delete('/calificaciones/{rating}', [RatingController::class, 'destroy'])->name('calificaciones.destroy');
 
+Route::patch('/calificaciones/{id}', [RatingController::class, 'update'])->name('calificaciones.update');
+
 //ruta para manejar los comentarios de las peliculas
 Route::middleware('auth')->group(function () {
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 });
+
+Route::delete('/{comment}', [CommentController::class, 'destroy'])->name('comentarios.destroy');
+
+Route::patch('/{id}', [CommentController::class, 'update'])->name('comentarios.update');
 
 require __DIR__.'/auth.php';
