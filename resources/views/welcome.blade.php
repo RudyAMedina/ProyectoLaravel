@@ -13,7 +13,7 @@
 
 <body class="font-sans antialiased bg-gray-900 text-white">
     <div class="bg-gray-80 text-black/50 dark:bg-black dark:text-white/50">
-        <header class="flex items-center justify-between py-10 bg-gray-800">
+        <header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between py-4 bg-gray-800 shadow-md">
             <!-- Logo a la izquierda -->
             <div class="flex items-center">
                 <a href="{{ url('/') }}"
@@ -23,7 +23,7 @@
             </div>
             <!-- Buscador en el centro -->
             <div class="flex-grow flex justify-center">
-                <form action="{{ route('peliculas.lista') }}" method="GET" class="mb-8 w-2/3">
+                <form action="{{ route('peliculas.lista') }}" method="GET" class="mb-8 w-1/2">
                     <div class="flex">
                         <input type="text" name="search" placeholder="¿Qué quieres ver hoy?" class="px-4 py-2 border rounded-l-lg focus:outline-none text-black w-full">
                         <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-r-lg">Buscar</button>
@@ -59,7 +59,7 @@
             @endif
         </header>
 
-        <main class="mt-6 container mx-auto px-4">
+        <main class="mt-24 container mx-auto px-4 pb-16"> <!-- Aumentar el margen superior y añadir padding inferior -->
             @if(request()->filled('search'))
             <div class="mb-8">
                 <h2 class="text-2xl font-bold mb-4 text-white">Resultados de la búsqueda</h2>
